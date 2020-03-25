@@ -24,7 +24,7 @@ class kafkaAPI():
         
 
     @staticmethod
-    def createProducerWithLoginAndPass(kafka_ip, group_id, autoOffsetReset, securityProtocol, saslMechanism, kafkaUserName, kafkaPassword):
+    def createProducerWithLoginAndPass(kafka_ip, group_id, autoOffsetReset, securityProtocol, saslMechanism, userName, password):
         
         conf = {
             'bootstrap.servers': kafka_ip,
@@ -34,8 +34,8 @@ class kafkaAPI():
         
         conf['security.protocol'] = securityProtocol,
         conf['sasl.mechanism'] = saslMechanism
-        conf['sasl.username'] = os.environ[kafkaUserName]
-        conf['sasl.password'] = os.environ[kafkaPassword]
+        conf['sasl.username'] = os.environ[userName]
+        conf['sasl.password'] = os.environ[password]
 
     
         c = Consumer(conf)
