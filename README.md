@@ -11,7 +11,7 @@ Para utilizar esta biblioteca localmente, é necessário cloná-la para o diret�
 
 Para utilizar esta biblioteca globalmente, é necessário cloná-la para o diretório de bibliotecas do Python. Caso não saiba onde fica este diretório, basta:
 
- - Abre a IDE do Python;
+ - Abre a IDLE do Python (ou cmd)
  - Importe a biblioteca sys: 
  > import sys
  - E digite: 
