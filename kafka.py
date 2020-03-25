@@ -6,83 +6,49 @@ from confluent_kafka import Producer, Consumer, KafkaError
 class kafkaAPI():
 
     @staticmethod
-    def kafkaUtils_createProducerWithKerberos(self, topic_name, kafka_ip, group_id='group_consumer', kerberosKeyTabPath, kerberosUsername):
+    def createProducerWithKerberos(kafka_ip, group_id, autoOffsetReset, securityProtocol, saslMechanism, saslKerberosServiceName, kerberosKeyTabPath, kerberosUsername):
+        
         conf = {
             'bootstrap.servers': kafka_ip,
             'group.id': group_id,
-            'auto.offset.reset': 'earliest'
+            'auto.offset.reset': autoOffsetReset
         }
-        conf['security.protocol'] = 'SASL_PLAINTEXT'
-        conf['sasl.mechanism'] = 'GSSAPI'
-        conf['sasl.kerberos.service.name'] = 'kafka'
+        conf['security.protocol'] = securityProtocol
+        conf['sasl.mechanism'] = saslMechanism
+        conf['sasl.kerberos.service.name'] = saslKerberosServiceName
         conf['sasl.kerberos.keytab'] = os.environ[kerberosKeyTabPath]
         conf['sasl.kerberos.principal'] = os.environ[kerberosUsername]
         
         c = Consumer(conf)
-        c.subscribe([topic_name])
-        while True:
-            msg = c.poll(1.0)
-            if msg is None:
-                continue
-            if msg.error():
-                print("Consumer error: {}".format(msg.error()))
-                continue
-            print('Received message: {}'.format(msg.value().decode('utf-8')))
-            val = msg.value().decode('utf-8')
-            val = val.replace('"', '')
-            self.onReceiveEvent([val], base_id="LIBRA")
-        c.close()
+        return c
+        
 
     @staticmethod
-    def kafkaUtils_createProducerWithLoginAndPass(self, topic_name, kafka_ip, group_id='group_consumer', kafkaUserName, kafkaPassword):
+    def createProducerWithLoginAndPass(kafka_ip, group_id, autoOffsetReset, securityProtocol, saslMechanism, kafkaUserName, kafkaPassword):
         
         conf = {
             'bootstrap.servers': kafka_ip,
             'group.id': group_id,
-            'auto.offset.reset': 'earliest'
+            'auto.offset.reset': autoOffsetReset
         }
         
-        conf['security.protocol'] = 'SASL_PLAINTEXT',
-        conf['sasl.mechanism'] = 'PLAIN'
+        conf['security.protocol'] = securityProtocol,
+        conf['sasl.mechanism'] = saslMechanism
         conf['sasl.username'] = os.environ[kafkaUserName]
         conf['sasl.password'] = os.environ[kafkaPassword]
 
     
         c = Consumer(conf)
-        c.subscribe([topic_name])
-        while True:
-            msg = c.poll(1.0)
-            if msg is None:
-                continue
-            if msg.error():
-                print("Consumer error: {}".format(msg.error()))
-                continue
-            print('Received message: {}'.format(msg.value().decode('utf-8')))
-            val = msg.value().decode('utf-8')
-            val = val.replace('"', '')
-            self.onReceiveEvent([val], base_id="LIBRA")
-        c.close()
+        return c
 
     @staticmethod
-    def kafkaUtils_createProducerWithoutLogin(self, topic_name, kafka_ip, group_id='group_consumer'):
+    def createProducerWithoutLogin(kafka_ip, group_id, autoOffsetReset):
         conf = {
-                        'bootstrap.servers': kafka_ip,
-                        'group.id': group_id,
-                        'auto.offset.reset': 'earliest'
+            'bootstrap.servers': kafka_ip,
+            'group.id': group_id,
+            'auto.offset.reset': 'earliest'
         }
     
         c = Consumer(conf)
-        c.subscribe([topic_name])
-        while True:
-            msg = c.poll(1.0)
-            if msg is None:
-                continue
-            if msg.error():
-                print("Consumer error: {}".format(msg.error()))
-                continue
-            print('Received message: {}'.format(msg.value().decode('utf-8')))
-            val = msg.value().decode('utf-8')
-            val = val.replace('"', '')
-            self.onReceiveEvent([val], base_id="LIBRA")
-        c.close()
+        return c
 
