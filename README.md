@@ -12,11 +12,11 @@ Para utilizar esta biblioteca globalmente, é necessário cloná-la para o diret
 
     * Abre a IDE do Python;
     * Importe a biblioteca sys: 
-        > import sys
+        'import sys'
     * E digite: 
-        > print(sys.path)
+        'print(sys.path)'
     * A saída do programa será algo parecido com: 
-        > 'C:\\Users\\marcos\\AppData\\Local\\Programs\\Python\\Python38-32\\lib\\site-packages']'
+        'C:\\Users\\marcos\\AppData\\Local\\Programs\\Python\\Python38-32\\lib\\site-packages']'
         (saída obtida atráves do Windows);
 
 Assim, esta biblioteca deve estar dentro do diretório **site-packages**. 
